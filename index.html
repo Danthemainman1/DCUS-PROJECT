@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Betsy's Diary: 1978-1981 (DC US History Project)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        '70s-gold': '#e5a93d',
+                        '70s-green': '#567d46',
+                        '70s-orange': '#cc5500',
+                        '70s-brown': '#4a3728',
+                        'paper': '#fdf5e6',
+                        'ink': '#1a1a2e',
+                    },
+                    fontFamily: {
+                        'handwriting': ['Caveat', 'cursive'],
+                        'typewriter': ['Courier Prime', 'monospace'],
+                        'marker': ['Permanent Marker', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 1. Visual Immersion: The Desk Environment */
+        body {
+            /* Wood-grain desk background */
+            background-color: #3b2413;
+            background-image: 
+                linear-gradient(90deg, rgba(0,0,0,0.6) 0px, rgba(0,0,0,0.2) 2px, transparent 4px, transparent 146px, rgba(0,0,0,0.2) 148px, rgba(0,0,0,0.6) 150px),
+                repeating-linear-gradient(to bottom, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px),
+                linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.05) 75%, rgba(0,0,0,0.05));
+            background-size: 150px 100%, 100% 100%, 60px 60px;
+            margin: 0;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Vignette Effect */
+        .vignette {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* Dynamic Lighting */
+        .lighting-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 40;
+            transition: all 0.8s ease;
+        }
+        
+        body.lamp-on .lighting-overlay {
+            background: radial-gradient(circle at 60% 30%, rgba(255, 230, 150, 0.1) 0%, rgba(0, 0, 0, 0.6) 90%);
+            mix-blend-mode: multiply;
+        }
+
+        body.lamp-off .lighting-overlay {
+            background: radial-gradient(circle at 50% 50%, rgba(30, 50, 80, 0.4) 0%, rgba(5, 10, 20, 0.85) 100%);
+            mix-blend-mode: hard-light;
+        }
+
+        /* The Notebook */
+        .notebook-cover {
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.6), inset 2px 0 5px rgba(255,255,255,0.2);
+            border-radius: 4px 15px 15px 4px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .notebook-spine {
+            background: linear-gradient(to right, #2d2115 0%, #4a3728 20%, #2d2115 100%);
+            border-radius: 4px 0 0 4px;
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.5);
+            z-index: 30;
+        }
+
+        /* Paper Crinkle & Texture */
+        .diary-paper {
+            background-color: #fdf5e6;
+            background-image: 
+                repeating-linear-gradient(transparent, transparent 31px, #a3c8ed 31px, #a3c8ed 32px),
+                url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.05"/></svg>');
+            line-height: 32px;
+            position: relative;
+            padding-top: 8px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+            transform-origin: left center;
+        }
+
+        .diary-paper::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 50px;
+            width: 2px;
+            background-color: rgba(240, 128, 128, 0.7);
+            z-index: 0;
+        }
+
+        /* Coffee Stain Overlay */
+        .coffee-stain {
+            position: absolute;
+            width: 120px; height: 110px;
+            background: radial-gradient(circle, transparent 40%, rgba(139, 69, 19, 0.15) 60%, rgba(139, 69, 19, 0.4) 65%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            transform: scaleY(0.9) rotate(15deg);
+        }
+
+        .diary-content {
+            position: relative;
+            z-index: 1;
+            padding-left: 65px;
+            padding-right: 20px;
+        }
+
+        /* 2. Enhanced Ephemera & Tape */
+        .ephemera-container {
+            float: right;
+            margin: 5px 0 15px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .polaroid {
+            background: #ffffff;
+            padding: 10px 10px 25px 10px;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.3);
+            width: 220px;
+            transition: transform 0.3s ease;
+        }
+        
+        .polaroid img {
+            width: 100%; height: 180px;
+            object-fit: cover;
+            border: 1px solid #e5e5e5;
+            filter: sepia(0.4) contrast(1.1) brightness(0.9) grain(0.5);
+        }
+
+        .movie-ticket {
+            background: #f4d03f;
+            border: 2px dashed #b7950b;
+            padding: 10px;
+            font-family: 'Courier Prime', monospace;
+            text-align: center;
+            box-shadow: 1px 2px 5px rgba(0,0,0,0.2);
+            color: #111;
+            width: 180px;
+        }
+
+        .news-clipping {
+            background: #eeebe1;
+            padding: 15px;
+            font-family: 'Times New Roman', serif;
+            box-shadow: 1px 2px 5px rgba(0,0,0,0.2);
+            width: 220px;
+            border: 1px solid #ccc;
+        }
+
+        .doodle {
+            background: transparent;
+            color: #1a1a2e;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.5rem;
+            transform: rotate(-5deg);
+            opacity: 0.8;
+            padding: 10px;
+        }
+
+        /* Washi/Scotch Tape Effect */
+        .tape {
+            position: absolute;
+            background: rgba(255, 255, 220, 0.4);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            height: 25px;
+            width: 80px;
+            z-index: 15;
+            backdrop-filter: sepia(0.5) blur(1px);
+        }
+
+        .tape-top { top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg); }
+        .tape-bottom { bottom: -10px; right: 10px; transform: rotate(5deg); width: 60px; }
+
+        @media (max-width: 640px) {
+            .ephemera-container {
+                float: none;
+                margin: 10px auto 20px auto;
+                display: block;
+                width: max-content;
+            }
+        }
+
+        /* 3. The Ribbon Ritual */
+        #ribbon-container {
+            position: absolute;
+            right: -20px;
+            top: 150px;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateX(20px);
+            z-index: 20;
+            pointer-events: none;
+        }
+        #ribbon-container.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .yellow-ribbon {
+            width: 40px;
+            height: 120px;
+            background: #f1c40f;
+            border-radius: 5px;
+            box-shadow: -2px 5px 10px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .yellow-ribbon::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; left: 0;
+            border-left: 20px solid #f1c40f;
+            border-right: 20px solid #f1c40f;
+            border-bottom: 20px solid transparent;
+        }
+
+        /* 4. Technical Polish: Page Turn & Glossary */
+        .page-flip-out {
+            transform: rotateY(-90deg);
+            opacity: 0;
+            transition: transform 0.4s ease-in, opacity 0.2s ease-in;
+        }
+
+        .page-flip-in {
+            transform: rotateY(0deg);
+            opacity: 1;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease-out;
+        }
+
+        .glossary-term {
+            text-decoration: underline;
+            text-decoration-style: dashed;
+            text-decoration-color: #cc5500;
+            cursor: help;
+            position: relative;
+        }
+
+        .glossary-term:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 120%; left: 50%;
+            transform: translateX(-50%);
+            background: #2d2115;
+            color: #fdf5e6;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.85rem;
+            white-space: normal;
+            width: max-content;
+            max-width: 250px;
+            text-align: center;
+            z-index: 100;
+            line-height: 1.4;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .lamp-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2d2115;
+            color: #fdf5e6;
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 100;
+            cursor: pointer;
+            border: 2px solid #e5a93d;
+            transition: all 0.3s ease;
+        }
+        .lamp-btn:hover { background: #e5a93d; color: #2d2115; }
+
+        /* Timeline styles */
+        .timeline-scroll::-webkit-scrollbar { width: 6px; }
+        .timeline-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        .timeline-scroll::-webkit-scrollbar-thumb { background: #cc5500; border-radius: 10px; }
+        .tab-active { background-color: #fdf5e6; color: #4a3728; border-left: 4px solid #cc5500; font-weight: bold; }
+    </style>
+</head>
+<body class="lamp-on min-h-screen flex flex-col items-center justify-center py-8 px-4 sm:px-8 font-typewriter">
+
+    <div class="vignette"></div>
+    <div class="lighting-overlay"></div>
+    
+    <button id="lamp-toggle" class="lamp-btn flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1z"/>
+        </svg>
+        <span id="lamp-text">Desk Lamp: ON</span>
+    </button>
+
+    <main class="max-w-5xl w-full flex-grow flex flex-col md:flex-row bg-70s-green notebook-cover relative">
+        
+        <aside class="w-full md:w-1/3 flex flex-col border-b-4 md:border-b-0 md:border-r-4 border-70s-brown relative z-20">
+            <div class="absolute top-0 bottom-0 left-0 w-8 notebook-spine hidden md:block"></div>
+            
+            <div class="bg-70s-gold p-4 md:pl-12 flex-grow flex flex-col">
+                <div class="bg-paper p-3 rounded-md shadow-inner mb-4 transform -rotate-2 relative">
+                    <div class="tape tape-top"></div>
+                    <h2 class="font-bold text-70s-brown text-center text-sm border-b-2 border-70s-orange pb-1 border-dashed mt-2">
+                        PROPERTY OF: BETSY M.
+                    </h2>
+                    <p class="text-xs text-center mt-1 text-gray-600">Brookline, Massachusetts</p>
+                </div>
+
+                <h3 class="text-70s-brown font-bold mb-3 uppercase tracking-wider text-sm border-b border-70s-brown pb-1">Timeline Index</h3>
+                <nav id="timeline" class="flex-grow overflow-y-auto timeline-scroll flex flex-row md:flex-col gap-2 pb-2"></nav>
+            </div>
+        </aside>
+
+        <section class="w-full md:w-2/3 bg-paper diary-paper min-h-[60vh] md:min-h-[700px] flex flex-col page-flip-in" id="diary-container">
+            <div id="coffee-stain-1" class="coffee-stain top-[10%] right-[15%]"></div>
+            <div id="coffee-stain-2" class="coffee-stain bottom-[20%] left-[10%] transform scale(0.6) rotate(-45deg)"></div>
+            
+            <div class="diary-content py-8 flex-grow flex flex-col">
+                <div class="flex justify-between items-end border-b-2 border-ink pb-2 mb-4 pr-4">
+                    <h2 id="entry-date" class="text-2xl font-bold text-ink">Date</h2>
+                    <span id="entry-age" class="text-sm font-typewriter text-gray-500">Age: --</span>
+                </div>
+                <div id="entry-text" class="font-handwriting text-2xl text-ink whitespace-pre-wrap flex-grow pr-2 sm:pr-8 pb-10">
+                    <!-- Javascript content injected here -->
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 right-0 w-12 h-12 bg-gradient-to-tl from-[#e5e5e5] to-transparent border-t border-l border-gray-200 rounded-tl-lg shadow-sm"></div>
+            
+            <div id="ribbon-container">
+                <div class="yellow-ribbon"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Web Audio API for a synthesized paper rustle sound
+        function playPageTurnSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+                
+                // Create a short burst of noise
+                const bufferSize = ctx.sampleRate * 0.12; // 120ms
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                
+                for (let i = 0; i < bufferSize; i++) {
+                    // White noise with exponential decay to simulate a crisp paper snap/rustle
+                    data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.02));
+                }
+                
+                const noise = ctx.createBufferSource();
+                noise.buffer = buffer;
+                
+                // Filter the noise to sound less like TV static and more like paper
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'highpass';
+                filter.frequency.value = 1000;
+                
+                const filter2 = ctx.createBiquadFilter();
+                filter2.type = 'lowpass';
+                filter2.frequency.value = 5000;
+                
+                const gain = ctx.createGain();
+                gain.gain.value = 0.5; // Moderate volume
+                
+                noise.connect(filter);
+                filter.connect(filter2);
+                filter2.connect(gain);
+                gain.connect(ctx.destination);
+                
+                noise.start();
+            } catch (e) {
+                console.log("Audio skipped or unsupported.");
+            }
+        }
+
+        // Diary Data & Ephemera definitions
+        const diaryEntries = [
+            {
+                id: 'oct-1978',
+                shortDate: 'Oct 1978',
+                fullDate: 'Wednesday, October 25, 1978',
+                age: 11,
+                hasStain: false,
+                text: "Dear Diary,\n\nI’m sitting in my room in Brookline trying to listen to the new Bee Gees album, but Dad has the CBS Evening News blaring from the living room. \n\nHe and Mom were talking at dinner about some place called Iran. Apparently, the people there are protesting against their leader, <span class='glossary-term' data-tooltip='Mohammad Reza Pahlavi, the pro-Western monarch of Iran who was overthrown in 1979.'>the Shah</span>. Dad was reading the Boston Globe and said the Shah has a secret police force called <span class='glossary-term' data-tooltip='The brutal intelligence and security organization of Iran under the Shah.'>SAVAK</span> that is super mean to people who disagree with him. \n\nIt feels totally weird that something happening halfway across the world is making Dad so stressed. He muttered something about \"Wait until this hits the gas pumps.\" I don't really get it. I’m just trying to figure out if I can convince Mom to let me go see the new movie 'Grease' again this weekend. \n\nMiddle school is a total bummer so far.",
+                ephemera: `
+                    <div class="ephemera-container" style="transform: rotate(3deg);">
+                        <div class="tape tape-top"></div>
+                        <div class="movie-ticket">
+                            <h4 style="font-weight:bold; border-bottom:1px solid #000; padding-bottom:5px; margin-bottom:5px;">ADMIT ONE</h4>
+                            <p style="font-size: 1.2rem; margin:0;">GREASE</p>
+                            <p style="font-size: 0.8rem; margin:0;">Brookline Cinema</p>
+                            <p style="font-size: 0.7rem; margin-top:5px;">$2.50</p>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 'mar-1979',
+                shortDate: 'Mar 1979',
+                fullDate: 'Friday, March 30, 1979',
+                age: 11,
+                hasStain: true,
+                text: "Dear Diary,\n\nEveryone at school is completely freaked out today. A couple days ago, something broke at a nuclear power plant in Pennsylvania called <span class='glossary-term' data-tooltip='Site of the most significant accident in U.S. commercial nuclear power plant history.'>Three Mile Island</span>. \n\nMom made us stay inside all afternoon because she's scared an invisible radiation cloud is going to blow up to Massachusetts. Dad said she's overreacting, but even he looks worried. The crazy part is, Mom and Dad just saw a movie called 'The China Syndrome' last week about a nuclear meltdown! It feels like a horror movie is coming to life.\n\nI asked my science teacher, Mr. Higgins, if we were going to glow in the dark. He didn't laugh. He just said the government is trying to cool down the reactor core. I really hope they fix it.",
+                ephemera: `
+                    <div class="ephemera-container polaroid" style="transform: rotate(-2deg);">
+                        <div class="tape tape-top" style="left:20%"></div>
+                        <img src="https://images.unsplash.com/photo-1593955684343-43288f619e88?auto=format&fit=crop&w=400&q=80" alt="News on TV">
+                        <div class="font-handwriting text-xl text-center mt-2 transform -rotate-1">Watched the news all night</div>
+                    </div>`
+            },
+            {
+                id: 'jul-1979',
+                shortDate: 'Jul 1979',
+                fullDate: 'Monday, July 16, 1979',
+                age: 12,
+                hasStain: false,
+                text: "Dear Diary,\n\nSummer break is supposed to be fun, but everything feels heavy. Last night, President Carter was on TV giving this huge speech. Dad called it the \"Malaise\" speech. Carter wore his cardigan and talked about a <span class='glossary-term' data-tooltip='A famous 1979 speech where Carter addressed the energy crisis and a perceived lack of moral and spiritual confidence in America.'>\"crisis of confidence\"</span> in America.\n\nBecause of the revolution in Iran, <span class='glossary-term' data-tooltip='Organization of the Petroleum Exporting Countries. They control global oil exports.'>OPEC</span> is jacking up oil prices again. Now we have \"Odd-Even\" gas rationing days. Dad waited in line for two hours yesterday in the sticky heat just to buy gas. People were honking and screaming. \n\nWorse, Carter wants everyone to turn their thermostats down to 65 degrees this winter to save heating oil. Mom is already knitting me extra thick sweaters. Massachusetts winters at 65 degrees? I am going to freeze to death in my own bedroom.",
+                ephemera: `
+                    <div class="ephemera-container" style="transform: rotate(1deg);">
+                        <div class="tape tape-top"></div>
+                        <div class="tape tape-bottom"></div>
+                        <div class="news-clipping">
+                            <h3 style="font-weight:bold; font-size:1.1rem; text-align:center; border-bottom:2px solid #000; margin-bottom:5px;">THE BOSTON GLOBE</h3>
+                            <h4 style="font-weight:bold; font-size:1.3rem; text-align:center; line-height:1.1;">ODD-EVEN GAS RATIONING BEGINS</h4>
+                            <p style="font-size:0.75rem; margin-top:8px; text-align:justify;">Gov. King announces emergency measures to combat severe pump shortages across the Commonwealth...</p>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 'nov-1979',
+                shortDate: 'Nov 1979',
+                fullDate: 'Tuesday, November 6, 1979',
+                age: 12,
+                hasStain: true,
+                text: "Dear Diary,\n\nThe whole house is silent. Even the Celtics game is off. \n\nTwo days ago, Iranian students climbed the gates of the US Embassy in Tehran and took 52 Americans hostage. Walter Cronkite looks so serious on the news. They are furious that President Carter let the Shah come to the United States for cancer treatment. They want him sent back to stand trial.\n\nI can't imagine being one of those hostages, just trapped thousands of miles from home. The news showed crowds chanting in the streets over there. Dad has been pacing the living room floor. He says this makes America look weak. \n\nMom made meatloaf tonight, but nobody really ate. We just watched the TV. It feels like the whole country is holding its breath."
+            },
+            {
+                id: 'feb-1980',
+                shortDate: 'Feb 1980',
+                fullDate: 'Saturday, February 23, 1980',
+                age: 12,
+                hasStain: false,
+                text: "Dear Diary,\n\nDAY 112 of the Hostage Crisis. The thermostat is at 65, and it's freezing, but WE ARE STOKED!!! \n\nLast night at the Winter Olympics in Lake Placid, the US Men's Ice Hockey team beat the Soviet Union 4-3! The announcer yelled, \"Do you believe in miracles? YES!\" \n\nDad was literally jumping on the couch. People on our street ran outside banging pots and pans. It feels so good to finally win at something. The Soviet team is mostly professional soldiers, and our guys are just college kids. \n\nIt was a brief moment of absolute joy. But when the news came back on, they reminded us the hostages are still over there. Still waiting.",
+                ephemera: `
+                    <div class="ephemera-container" style="transform: rotate(-6deg);">
+                        <div class="tape tape-top"></div>
+                        <div class="doodle">
+                            <div style="border: 2px solid #1a1a2e; padding: 10px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                                <div style="text-decoration: line-through;">USSR (Commies)</div>
+                                <div style="font-size: 1.8rem; color: red;">USA WIN!!!</div>
+                                <div style="font-size: 1rem;">4 - 3</div>
+                            </div>
+                        </div>
+                    </div>`
+            },
+            {
+                id: 'apr-1980',
+                shortDate: 'Apr 1980',
+                fullDate: 'Saturday, April 26, 1980',
+                age: 13,
+                hasStain: true,
+                text: "Dear Diary,\n\nAwful news broke yesterday. President Carter ordered a secret military mission to rescue the hostages called <span class='glossary-term' data-tooltip='A failed Delta Force operation that resulted in the deaths of eight American servicemen.'>Operation Eagle Claw</span>. It was a complete disaster. Helicopters crashed in the desert, and eight American servicemen died. They never even made it to Tehran. \n\nMom was crying at the kitchen table. It feels so hopeless. To escape it, I just put on my headphones, listen to Blondie's 'Heart of Glass' or The Cars, and pretend I'm somewhere else. Disco is dying, and this new wave music just sounds like the future.\n\nThis afternoon, Mom and I tied a big yellow ribbon around the oak tree in our front yard. Almost every house on our street has one now. We aren't forgetting them.",
+                ephemera: `
+                    <div class="ephemera-container polaroid" style="transform: rotate(4deg);">
+                        <div class="tape tape-top"></div>
+                        <img src="https://images.unsplash.com/photo-1507005477610-c1e0b5f1cb80?auto=format&fit=crop&w=400&q=80" alt="Yellow Ribbon">
+                        <div class="font-handwriting text-xl text-center mt-2">For the hostages</div>
+                    </div>`
+            },
+            {
+                id: 'nov-1980',
+                shortDate: 'Nov 1980',
+                fullDate: 'Wednesday, November 5, 1980',
+                age: 13,
+                hasStain: false,
+                text: "Dear Diary,\n\nYesterday was the Presidential election, and Ronald Reagan won by a landslide. Dad voted for him. He says Carter was a good man but inflation is out of control. He thinks Reagan's promise to rebuild the military is exactly what we need.\n\nI watched Carter's concession speech on TV. He looked so exhausted. It must be terrible to lose so publicly while still trying to negotiate with Iran. \n\nReagan kept asking during the debates, <span class='glossary-term' data-tooltip='A famous rhetorical question posed by Ronald Reagan during the 1980 debates, highlighting economic and foreign policy struggles.'>'Are you better off than you were four years ago?'</span> When I think about the gas lines, the freezing house, and the hostages... I guess most people decided the answer was no."
+            },
+            {
+                id: 'jan-1981',
+                shortDate: 'Jan 1981',
+                fullDate: 'Tuesday, January 20, 1981',
+                age: 13,
+                hasStain: false,
+                text: "Dear Diary,\n\nDAY 444. It is finally over.\n\nToday Ronald Reagan was sworn in. And literally minutes after he took the oath of office, the news broke: the planes carrying the 52 hostages had left Iranian airspace. They are on their way to West Germany, and then... they are coming home.\n\nDad poured a glass of champagne, and Mom hugged me so tight. The yellow ribbon on our oak tree is dirty and frayed from the snow, but we can finally take it down. \n\n444 days. I started this diary as a kid who just cared about disco and roller skates. Now I feel like I've watched the whole world shift. I think I'm going to put this notebook in my closet for a long time. \n\nWelcome home."
+            }
+        ];
+
+        let currentEntryId = diaryEntries[0].id;
+
+        // DOM Elements
+        const timelineEl = document.getElementById('timeline');
+        const entryDateEl = document.getElementById('entry-date');
+        const entryAgeEl = document.getElementById('entry-age');
+        const entryTextEl = document.getElementById('entry-text');
+        const diaryContainer = document.getElementById('diary-container');
+        const lampToggle = document.getElementById('lamp-toggle');
+        const lampText = document.getElementById('lamp-text');
+        const ribbonContainer = document.getElementById('ribbon-container');
+        const stain1 = document.getElementById('coffee-stain-1');
+        const stain2 = document.getElementById('coffee-stain-2');
+
+        function init() {
+            renderTimeline();
+            renderEntry(currentEntryId);
+
+            // Lighting Toggle Logic
+            lampToggle.addEventListener('click', () => {
+                const isOff = document.body.classList.contains('lamp-off');
+                if (isOff) {
+                    document.body.classList.remove('lamp-off');
+                    document.body.classList.add('lamp-on');
+                    lampText.textContent = "Desk Lamp: ON";
+                } else {
+                    document.body.classList.remove('lamp-on');
+                    document.body.classList.add('lamp-off');
+                    lampText.textContent = "Desk Lamp: OFF";
+                }
+            });
+        }
+
+        function renderTimeline() {
+            timelineEl.innerHTML = '';
+            diaryEntries.forEach(entry => {
+                const btn = document.createElement('button');
+                const isActive = entry.id === currentEntryId;
+                
+                btn.className = `text-left px-3 py-2 rounded-r md:rounded-l md:rounded-r-none transition-all duration-200 text-sm whitespace-nowrap md:whitespace-normal
+                    ${isActive ? 'tab-active' : 'text-70s-brown hover:bg-70s-orange hover:text-paper border-l-4 border-transparent'}`;
+                
+                btn.innerHTML = `<span class="block font-bold">${entry.shortDate}</span>`;
+                
+                btn.onclick = () => {
+                    if (currentEntryId !== entry.id) {
+                        currentEntryId = entry.id;
+                        updateTimelineStyles();
+                        transitionEntry(entry.id);
+                    }
+                };
+                timelineEl.appendChild(btn);
+            });
+        }
+
+        function updateTimelineStyles() {
+            const buttons = timelineEl.querySelectorAll('button');
+            buttons.forEach((btn, index) => {
+                const entry = diaryEntries[index];
+                if (entry.id === currentEntryId) {
+                    btn.className = 'text-left px-3 py-2 rounded-r md:rounded-l md:rounded-r-none transition-all duration-200 text-sm whitespace-nowrap md:whitespace-normal tab-active';
+                } else {
+                    btn.className = 'text-left px-3 py-2 rounded-r md:rounded-l md:rounded-r-none transition-all duration-200 text-sm whitespace-nowrap md:whitespace-normal text-70s-brown hover:bg-70s-orange hover:text-paper border-l-4 border-transparent';
+                }
+            });
+        }
+
+        function transitionEntry(id) {
+            // Trigger flip out
+            diaryContainer.classList.remove('page-flip-in');
+            diaryContainer.classList.add('page-flip-out');
+            
+            playPageTurnSound();
+
+            setTimeout(() => {
+                renderEntry(id);
+                // Trigger flip in
+                diaryContainer.classList.remove('page-flip-out');
+                diaryContainer.classList.add('page-flip-in');
+            }, 400); // Matches the CSS transition duration
+        }
+
+        function renderEntry(id) {
+            const entry = diaryEntries.find(e => e.id === id);
+            if (!entry) return;
+
+            entryDateEl.textContent = entry.fullDate;
+            entryAgeEl.textContent = `Age: ${entry.age}`;
+            
+            // Build the content HTML
+            let contentHtml = '';
+            if (entry.ephemera) {
+                contentHtml += entry.ephemera;
+            }
+            contentHtml += entry.text.replace(/\n/g, '<br>');
+            entryTextEl.innerHTML = contentHtml;
+
+            // Handle the Yellow Ribbon (Show only in 1980 and Jan 1981)
+            const yearStr = entry.id.split('-')[1];
+            if (yearStr === '1980' || entry.id === 'jan-1981') {
+                ribbonContainer.classList.add('visible');
+            } else {
+                ribbonContainer.classList.remove('visible');
+            }
+
+            // Handle coffee stains for realism variation
+            if (entry.hasStain) {
+                stain1.style.opacity = Math.random() > 0.5 ? '0.6' : '0';
+                stain2.style.opacity = Math.random() > 0.5 ? '0.5' : '0';
+            } else {
+                stain1.style.opacity = '0';
+                stain2.style.opacity = '0';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
