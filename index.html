@@ -215,6 +215,12 @@
         #ribbon-container.visible {
             opacity: 1;
             transform: translateX(0);
+            pointer-events: auto;
+        }
+        #ribbon-container.torn {
+            opacity: 0;
+            transform: translateX(26px) rotate(12deg) scale(0.92);
+            pointer-events: none;
         }
         .yellow-ribbon {
             width: 40px;
@@ -231,6 +237,40 @@
             border-left: 20px solid #f1c40f;
             border-right: 20px solid #f1c40f;
             border-bottom: 20px solid transparent;
+        }
+        .ribbon-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            background: #2d2115;
+            color: #fdf5e6;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.75rem;
+            border: 2px solid #e5a93d;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+        }
+        .ribbon-action:hover {
+            transform: translateY(-1px);
+            background: #e5a93d;
+            color: #2d2115;
+        }
+        .ribbon-action:disabled {
+            cursor: default;
+            opacity: 0.75;
+            transform: none;
+        }
+        .ribbon-note {
+            margin-top: 0.5rem;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.72rem;
+            color: #4a3728;
+            text-align: right;
+            max-width: 180px;
+            display: none;
         }
 
         /* 4. Technical Polish: Page Turn & Glossary */
@@ -348,6 +388,8 @@
             
             <div id="ribbon-container">
                 <div class="yellow-ribbon"></div>
+                <button id="ribbon-action" class="ribbon-action" type="button" style="display:none;">Tear off the ribbon</button>
+                <div id="ribbon-tear-note" class="ribbon-note">Take it down and keep it in the diary.</div>
             </div>
         </section>
 
@@ -505,24 +547,61 @@
                 age: 13,
                 hasStain: false,
                 text: "Dear Diary,\n\nDAY 444. It is finally over.\n\nToday Ronald Reagan was sworn in. And literally minutes after he took the oath of office, the news broke: the planes carrying the 52 hostages had left Iranian airspace. They are on their way to West Germany, and then... they are coming home.\n\nDad poured a glass of champagne, and Mom hugged me so tight. The yellow ribbon on our oak tree is dirty and frayed from the snow, but we can finally take it down. \n\n444 days. I started this diary as a kid who just cared about disco and roller skates. Now I feel like I've watched the whole world shift. I think I'm going to put this notebook in my closet for a long time. \n\nWelcome home."
+            },
+            {
+                id: 'feb-1981',
+                shortDate: 'Feb 1981',
+                fullDate: 'Monday, February 9, 1981',
+                age: 13,
+                hasStain: false,
+                text: "Dear Diary,\n\nThe house feels strange without the nightly hostage updates. For so long, the news was like a metronome counting out the days. Now it is just regular weather and school and my brother stealing the radio.\n\nThe oak tree out front still has the yellow ribbon tied around it. It is faded and stiff from the cold, but I keep looking at it like it is a reminder of something huge that actually ended. Mom says we can decide when to take it down.\n\nI keep thinking about all the adults in our house who looked so scared for so long. I did not understand everything, but I understood the feeling. I think that counts for something."
+            },
+            {
+                id: 'mar-1981',
+                shortDate: 'Mar 1981',
+                fullDate: 'Wednesday, March 25, 1981',
+                age: 13,
+                hasStain: false,
+                text: "Dear Diary,\n\nSpring is finally trying to show up. The snow is mostly gone, and the yellow ribbon on the oak tree looks thinner somehow, like it has done its job and is ready to leave.\n\nAfter dinner, Mom asked if I wanted to be the one to take it down. I said yes, but I was nervous, like I was breaking a spell. Maybe that is silly. Maybe that is exactly what it was.\n\nTomorrow I am going to bring the ribbon inside and put it in this notebook. I want to remember what it felt like when everyone in the neighborhood hoped for the same thing."
             }
         ];
 
         let currentEntryId = diaryEntries[0].id;
 
         // DOM Elements
-        const timelineEl = document.getElementById('timeline');
-        const entryDateEl = document.getElementById('entry-date');
-        const entryAgeEl = document.getElementById('entry-age');
-        const entryTextEl = document.getElementById('entry-text');
-        const diaryContainer = document.getElementById('diary-container');
-        const lampToggle = document.getElementById('lamp-toggle');
-        const lampText = document.getElementById('lamp-text');
-        const ribbonContainer = document.getElementById('ribbon-container');
-        const stain1 = document.getElementById('coffee-stain-1');
-        const stain2 = document.getElementById('coffee-stain-2');
+        let timelineEl;
+        let entryDateEl;
+        let entryAgeEl;
+        let entryTextEl;
+        let diaryContainer;
+        let lampToggle;
+        let lampText;
+        let ribbonContainer;
+        let ribbonActionButton;
+        let ribbonTearNote;
+        let stain1;
+        let stain2;
 
         function init() {
+            timelineEl = document.getElementById('timeline');
+            entryDateEl = document.getElementById('entry-date');
+            entryAgeEl = document.getElementById('entry-age');
+            entryTextEl = document.getElementById('entry-text');
+            diaryContainer = document.getElementById('diary-container');
+            lampToggle = document.getElementById('lamp-toggle');
+            lampText = document.getElementById('lamp-text');
+            ribbonContainer = document.getElementById('ribbon-container');
+            ribbonActionButton = document.getElementById('ribbon-action');
+            ribbonTearNote = document.getElementById('ribbon-tear-note');
+            stain1 = document.getElementById('coffee-stain-1');
+            stain2 = document.getElementById('coffee-stain-2');
+
+            if (!timelineEl || !entryDateEl || !entryAgeEl || !entryTextEl || !diaryContainer || !lampToggle || !lampText || !ribbonContainer || !ribbonActionButton || !ribbonTearNote || !stain1 || !stain2) {
+                return;
+            }
+
+            ribbonActionButton.addEventListener('click', tearOffRibbon);
+
             renderTimeline();
             renderEntry(currentEntryId);
 
@@ -607,10 +686,19 @@
 
             // Handle the Yellow Ribbon (Show only in 1980 and Jan 1981)
             const yearStr = entry.id.split('-')[1];
-            if (yearStr === '1980' || entry.id === 'jan-1981') {
+            const shouldShowRibbon = yearStr === '1980' || entry.id === 'jan-1981' || entry.id === 'feb-1981' || entry.id === 'mar-1981';
+            if (shouldShowRibbon) {
                 ribbonContainer.classList.add('visible');
+                ribbonActionButton.disabled = false;
+                ribbonActionButton.textContent = 'Tear off the ribbon';
+                ribbonActionButton.style.display = entry.id === 'mar-1981' ? 'inline-flex' : 'none';
+                ribbonTearNote.style.display = entry.id === 'mar-1981' ? 'block' : 'none';
+                ribbonContainer.classList.remove('torn');
             } else {
                 ribbonContainer.classList.remove('visible');
+                ribbonActionButton.style.display = 'none';
+                ribbonTearNote.style.display = 'none';
+                ribbonContainer.classList.remove('torn');
             }
 
             // Handle coffee stains for realism variation
@@ -621,6 +709,15 @@
                 stain1.style.opacity = '0';
                 stain2.style.opacity = '0';
             }
+        }
+
+        function tearOffRibbon() {
+            ribbonContainer.classList.add('torn');
+            ribbonActionButton.disabled = true;
+            ribbonActionButton.textContent = 'Ribbon saved';
+            setTimeout(() => {
+                ribbonContainer.classList.remove('visible');
+            }, 250);
         }
 
         document.addEventListener('DOMContentLoaded', init);
