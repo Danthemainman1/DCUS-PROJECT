@@ -579,7 +579,6 @@
         let lampText;
         let ribbonContainer;
         let ribbonActionButton;
-        let ribbonTearNote;
         let stain1;
         let stain2;
 
@@ -593,11 +592,10 @@
             lampText = document.getElementById('lamp-text');
             ribbonContainer = document.getElementById('ribbon-container');
             ribbonActionButton = document.getElementById('ribbon-action');
-            ribbonTearNote = document.getElementById('ribbon-tear-note');
             stain1 = document.getElementById('coffee-stain-1');
             stain2 = document.getElementById('coffee-stain-2');
 
-            if (!timelineEl || !entryDateEl || !entryAgeEl || !entryTextEl || !diaryContainer || !lampToggle || !lampText || !ribbonContainer || !ribbonActionButton || !ribbonTearNote || !stain1 || !stain2) {
+            if (!timelineEl || !entryDateEl || !entryAgeEl || !entryTextEl || !diaryContainer || !lampToggle || !lampText || !ribbonContainer || !ribbonActionButton || !stain1 || !stain2) {
                 return;
             }
 
@@ -693,12 +691,10 @@
                 ribbonActionButton.disabled = false;
                 ribbonActionButton.textContent = 'Tear off the ribbon';
                 ribbonActionButton.style.display = entry.id === 'mar-1981' ? 'inline-flex' : 'none';
-                ribbonTearNote.style.display = entry.id === 'mar-1981' ? 'block' : 'none';
                 ribbonContainer.classList.remove('torn');
             } else {
                 ribbonContainer.classList.remove('visible');
                 ribbonActionButton.style.display = 'none';
-                ribbonTearNote.style.display = 'none';
                 ribbonContainer.classList.remove('torn');
             }
 
