@@ -204,11 +204,11 @@
         /* 3. The Ribbon Ritual */
         #ribbon-container {
             position: absolute;
-            right: -92px;
-            top: 50%;
+            right: -20px;
+            top: 150px;
             opacity: 0;
-            transform: translate(100%, -50%);
             transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateX(20px);
             z-index: 20;
             pointer-events: none;
             display: flex;
@@ -217,12 +217,12 @@
         }
         #ribbon-container.visible {
             opacity: 1;
-            transform: translate(0, -50%);
+            transform: translateX(0);
             pointer-events: auto;
         }
         #ribbon-container.torn {
             opacity: 0;
-            transform: translate(100%, -50%) rotate(12deg) scale(0.92);
+            transform: translateX(26px) rotate(12deg) scale(0.92);
             pointer-events: none;
         }
         .yellow-ribbon {
